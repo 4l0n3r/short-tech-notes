@@ -1,0 +1,11 @@
+						Postgres Error Resolved
+
+colima Stop
+brew services stop  postgresql@14
+sudo lsof -i:5432
+kill pid
+colima start
+docker rm postgresdb
+docker run command 
+psql command 
+
