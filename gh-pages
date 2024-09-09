@@ -1,0 +1,40 @@
+1.
+    JamesIves/github-pages-deploy-action@v4
+    from a branch
+    cleanup
+
+2.
+    actions/configure-pages@v3
+    actions/upload-pages-artifact@v2
+    actions/deploy-pages@v2
+
+    from an archive
+
+3.
+    JFrog
+    not for build reports
+
+4.
+    s3 web hosting
+    s3 shouldn't be public
+
+5.
+    waf + cloudfront + s3
+    cost
+    waf
+
+    sign-in
+
+6.
+    Grafana
+
+7.
+    Archive the entire gh-pages branch
+
+
+from domain:
+    frequency
+    value
+
+
+

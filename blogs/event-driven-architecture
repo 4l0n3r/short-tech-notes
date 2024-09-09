@@ -1,0 +1,28 @@
+Introduction:
+
+    In the era of microservices, it's common for services to communicate with each other. But what happens when these services are tightly coupled? Imagine if Service-A
+    sends a request to Service-B, and then Service-B fails. What happens to Service-A? It might fail too. This tight coupling is something we should avoid in a microservices
+    environment. So, how can we achieve this? This is where Event-Driven Architecture (EDA) comes into play, offering a more loosely coupled approach.
+
+    In EDA, there are three main components:
+        Producer
+        Broker
+        Consumer
+
+    The producer is unaware of its consumers and simply sends data to the broker. The broker, which is capable of handling multiple requests, stores the data and then
+    distributes it to its subscribed consumers.
+
+Applying EDA in AWS:
+
+    Imagine we need to execute tasks based on events in an S3 bucket, such as creating a thumbnail for images uploaded to a specific folder or getting notified when an object
+    is deleted.
+
+    Now, which AWS component can help us execute tasks when events happen in an S3 bucket ? AWS Lambda can be triggered by events in an S3 bucket. But what if a large number of
+    images are uploaded at once? This could overwhelm the Lambda function, leading to missed events—a classic example of tight coupling.
+
+    So, how can we apply event-driven architecture here? We already have the producer (S3 bucket) and the consumer (Lambda function), but what’s missing? We need a broker to
+    store the events and send them to the consumers. Can you think of an AWS service that can act as a mediator here ? Yes, Amazon SQS.
+
+    By introducing Amazon SQS as the broker, what happens now? In this setup, S3 acts as the producer, SQS as the broker, and Lambda as the consumer. S3 sends events to SQS, which then relays them to Lambda.
+
+    Now that Lambda will get notified when upload or delete events happen, what should Lambda do? For the upload event, it can use some Python modules to create a thumbnail. But what about notifying someone? Should we send an email? Can you think of an AWS service for sending emails? Yes, we can use SNS for that.

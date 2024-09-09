@@ -37,10 +37,11 @@ Scheduling:
     pod_affinity and anti_affinity
 
 Drift:
-when there is a mismatch in provisioned and current config, it will update the nodes in a rolling deployment fashion
-latest ami version
-it will select the AMI from ASM parameter store
-ami version based on eks version
+
+    when there is a mismatch in provisioned and current config, it will update the nodes in a rolling deployment fashion
+    latest ami version
+    it will select the AMI from ASM parameter store
+    ami version based on eks version
 
 Distruption:
 
@@ -61,7 +62,19 @@ Consolidation:
 Can't run karpenter on node which is provisioned by karpenter.
 prometheus + grafana setup since it emits the metrics
 
-New One:
+scheduling constraints:
+
+    node affinities
+    taints & tolerations
+    topology spread
+    pod affinity
+    persistent volume topology
+    pod distruption budget
+    distruption control
+        do-not-distrupt: true
+
+
+Document:
 
     what is karpenter ?
         Karpenter is an open-source node lifecycle management project built for Kubernetes. We are planning to use Karpenter to manage AWS EKS managed nodes in AWS EKS cluster. Karpenter will take care of autoscaling nodes depending upon the predefined metrics. You can get more information about Karpenter by following below link: Karpenter Docs
