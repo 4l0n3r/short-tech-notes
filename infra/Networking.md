@@ -78,7 +78,8 @@ OSI 7 layer model:
         
         TCP is a connection based protocol. a connection with random port on client end and known port on the server. It's bi-directional.  
         Inorder to send the data the tcp connection to be established first. connection will be eshablished using 3-way handshake rule.
-
+        
+        3-way handshake :
         client                                                  server
         SYN             -> sn = cs (random)       ->  
                         <- ack = cs + 1, sn = ss  <-            SYN-ACK
