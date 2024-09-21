@@ -17,10 +17,79 @@ OSI 7 layer model:
         no identificatin of device,I mean no device to device communication
         collisions + data loss
 
+    Data link layer:
+        frames -> preamble | source mac | destination mac | eth type | data - buffer - Check |
+        eth type + data => will be given by layer 3
+        
+        media control access using CSMA part
+        collission detection will happen with CD part. buffer time to wait after the collission happens
+        1:1 communication , how ? switches ( understands layer 2 ) -> mac address table ( mac address : port )
+        collissions are isolated to port domains
+
+    Network Layer:
+        two local area networks( layer 2) ni connect cheyyadaniki, I mean inter-communication ki Layer 3 use chestaru.
+        Internet Protocol is layer 3 protocol. who adds the Ip to machines ? DHCP / humans
+        Routers ( layer 3 device ) remove frame encapsulation and add new frame encapsulation at every hop
+
+        packet -> v4,v6
+            source IP
+            Dest IP
+            Data
+            Protocol ( layer 4 protocol )
+            Hop limit -> to prevent from hop loop
+
+        subnet mask -> network (1) , host (0)
+        IP_address and_operation Subnet_mask => Network ID. which will be usefull to communicate locally / remote ( using gateway )
+        
+        after we got packet from layer 2, how it knows the mac address on ip ? ARP - address resolution protocol.
+        ARP -> sends broadcast msg to all devices. device with that IP will respond with mac address.
+
+        network flow:
+            1. packet creation
+            2. checks whether same network or not
+            3. yes
+                1. ARP will find out mac by sending broadcast msg
+                2. frame created with destination mac
+                3. forward the frame
+            4. no
+                1. ARP will find out mac address for default route of that network ( Router )
+                2. frame will be created with destination mac ( router mac )
+                3. forward the frame
+                4. repeat step 2
+    
+    Transport layer:
+        Issues with layer 3:
+            out of order packets  ( sequence number )
+            not reliable -> packet can be lost ( ackowledgement, re-transmitted )
+            delays -> differnt route for different packets can result in delays
+            no flow control -> I mean source can send faster which can not be handled by destintion
+            no communication channels -> can't have two service communications between two devices ( different ports )
+
+        TCP ( reliable / slower )
+        UDP ( less reliable / faster )
+
+        segment:
+            tcp header:
+                source port
+                destination port
+                sequence number
+                acknowledgement
+            data
+        
+        TCP is a connection based protocol. a connection with random port on client end and known port on the server. It's bi-directional.  
+        Inorder to send the data the tcp connection to be established first. connection will be eshablished using 3-way handshake rule.
+
+        client                                                  server
+        SYN             -> sn = cs (random)       ->  
+                        <- ack = cs + 1, sn = ss  <-            SYN-ACK
+        ACk             -> sn = cs+1, ack = ss+1  ->
+                        Connection established
+
+        ack = cs + 1, means I received till cs, now send cs + 1
+
 Traditional cloud  into  Virtual cloud
 Services levels
 inside and outside VPC
-
 **CIDR :**
 
     Notation
