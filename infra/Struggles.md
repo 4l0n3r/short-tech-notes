@@ -27,6 +27,15 @@ AWS:
     
     you can't create service account and attach it to pod until you enable OIDC -> eksctl utils associate-iam-oidc-provider --cluster ${CLUSTER_NAME} --approve
     
+    something goes wrong with k8s object, always describe it.
+
+    Error: Post "http://localhost/api/v1/namespaces/kube-system/serviceaccounts": dial tcp 127.0.0.1:80: connect: connection refused  -> You should have Kubernetes provider setup using host, certificate, token otherwise it will try to connect to localhost cluster and it will fail.
+
+    failed to fetch VPC ID from instance metadata: EC2MetadataError: failed to make EC2Metadata request  ->  Ec2 instance metadata was disabled. make it enable to work properly.
+
+    RDS blue green deployment:
+        It needs too many permissions, even chatgpt didn't helped.
+        It got green for few rds services and red for remaining even though we use same parameter group for both. It could be because of cluster settings.
     
 
 Postgres Error Resolved:

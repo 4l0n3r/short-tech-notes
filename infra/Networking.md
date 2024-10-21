@@ -41,7 +41,7 @@ OSI 7 layer model:
         subnet mask -> network (1) , host (0)
         IP_address and_operation Subnet_mask => Network ID. which will be usefull to communicate locally / remote ( using gateway )
         
-        after we got packet from layer 2, how it knows the mac address on ip ? ARP - address resolution protocol.
+        after we got packet from layer 2, how it knows the mac address based on ip ? ARP - address resolution protocol.
         ARP -> sends broadcast msg to all devices. device with that IP will respond with mac address.
 
         network flow:
