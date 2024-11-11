@@ -1,23 +1,25 @@
 Solidity:
-    pragma
-    import
-    library, interface, errors
-    contract
-    type declarations
-    state variables
-    constant
-    immutable
-    events
-    modifier
-    function
-    constructor
-    receive
-    fallback
-    external
-    public
-    internal
-    private
-    view/pure
+    Outside contract:
+        pragma
+        import
+        errors
+        library, interface, contract
+    Inside contract:
+        type declarations
+        state variables
+        constant
+        immutable
+        events
+        modifier
+        function:
+            constructor
+            receive
+            fallback
+            external
+            public
+            internal
+            private
+            view/pure
 
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY)
 
@@ -149,6 +151,8 @@ default:
         yarn add --dev hardhat ethers@5.7.2 @nomiclabs/hardhat-ethers @nomicfoundation/hardhat-ethers@^3.0.2 @nomiclabs/hardhat-waffle ethereum-waffle @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers hardhat-deploy @nomicfoundation/hardhat-verify
 hardhat config:
 
+to interact with solidity contract we need contract adderss and abi ( application byte interface )
+
 Defi:
     eth is not possible to deposite since aave treats everything as ERC20 and eth is not under ERC20
     first deploy eth to get the weth ( wrapped eth )
@@ -196,6 +200,7 @@ Findings:
     should add await inside of the expect statement.
     if we don't import hardhat-deploy we should deploy the contract using "getContractFactory" function
     Always do the state changes first before calling any external function to prevent the Reentrancy attack
+
 Troubleshoot:
     Removing toolbox from hardhat-config file
     Use toolbox instead of etherscan, waffle
