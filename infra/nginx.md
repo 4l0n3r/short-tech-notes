@@ -4,7 +4,7 @@ proxy server -> to forward the request to others
     load balancer
     cache ( static content )
     security ( only one server is getting exposed ) with TLS
-    comporession of images and videos ( netflix )
+    compression of images and videos ( netflix )
 
 nginx.config file
 
