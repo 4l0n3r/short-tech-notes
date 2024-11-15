@@ -1,32 +1,5 @@
     						Kuberenetes
 
-Matrix from Hell :
-if you wanna change one component version then you need to resolve dependency issues with other components + underlying os.
-
-Docker :
-
-    app
-    lib,dep
-    docker
-    os
-    hardware
-
-    	less in size
-    	less boot time
-    	low isolation since its sharing the same kernal for all containers. but not in hypervisor because of using different os kernals.
-
-    Hypervisor :
-    app
-    lib,dep
-    os
-    hypervisor
-    os
-    hardware
-
-Dev Operational team
-installation guide + app code confused ( since they didn't developed the code )
-App code + Dockerfile = Docker Image install with out any issues
-
 container archestration :
 
     Kubernetes - > deploying and managing hunrdered and thousands of containers in a clustered environment.
@@ -213,6 +186,13 @@ eks:
     	controle plane
     	addons
     	nodes
+
+Webhooks:
+
+    MutatingAdmissionWebhook:
+        Used to modify or mutate a resource before it is persisted in etcd. Example: Adding a default sidecar container to pods when deployed (like App Mesh injectors).
+    ValidatingAdmissionWebhook:
+        Used to validate the resource's configuration. Example: Ensuring that all resources conform to specific naming conventions or mandatory fields.
 
 Commands:
 

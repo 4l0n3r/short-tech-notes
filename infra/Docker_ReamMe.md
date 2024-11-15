@@ -1,5 +1,36 @@
 																			Docker
 
+Matrix from Hell :
+
+	if you wanna change one component version then you need to resolve dependency issues with other components + underlying os.
+
+Docker :
+
+    app
+    lib,dep
+    docker
+    os
+    hardware
+	
+	pros:
+		less in size
+		less boot time
+		low isolation since its sharing the same kernal for all containers. but not in hypervisor because of using different os kernals.
+
+Hypervisor :
+
+    app
+    lib,dep
+    os
+    hypervisor
+    os
+    hardware
+
+Dev Operational team:
+
+    installation guide + app code confused ( since they didn't developed the code )
+    App code + Dockerfile = Docker Image install with out any issues
+
 docker run
 	name
 	itd
