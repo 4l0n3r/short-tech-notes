@@ -29,3 +29,14 @@ Infrastructure managed by AWS
 
 Reference:
     https://www.youtube.com/watch?v=AYAh6YDXuho
+
+Issues with Aws secret manager :
+    1. Need to update every workflow in all service repos for getting values from aws 
+    2. Cost for secret api call each time we trigger a single workflow
+    3. A bit of time will included in workflow to fetch the value
+    4. Twer's won't have access to central account to see whether the secret is present or not
+    5. Maintenance
+        1. Create/Update secret on aws
+        2. Delete workflow
+        3. IAM permissions for secret management
+    6. We should have aws account details somewhere to connect to aws. ( we can't store it it aws since we can't get the details from aws to login to aws )
