@@ -2,11 +2,11 @@
 provider block:
 	to declare cloud provider information
 	we can create many provider blocks with alias concept -> for deploying in different regions
-	can use input values but cann't reference reosurces
+	can use input values but can't reference resources
 	
 terraform block:
 	block type is used to configure some behaviors of Terraform itself
-	cann't use input values & cann't reference reosurces
+	can't use input values & can't reference resources
 
 Provision infrastructure :
 	using aws console
@@ -51,7 +51,7 @@ terraform refresh
 
 local_sensitive_file
 
-variable.txt
+variable.tf
 	
 	variable types :
 		string 
@@ -174,7 +174,7 @@ Software Provisioning
 	- creating own AMI and bundle software with it 
 	   by using Packer
 	-  use standard AMI and install software on it
-	    by using Unusable
+	    by using Ansible
 
 	File uploads :
 		provisioner “file” {
@@ -256,7 +256,7 @@ Modules :
 	module from local
 	
 	module “module_name” {
-		source = “path either git or local”
+		source = “path, either git or local”
 	}
 
 Commands :
