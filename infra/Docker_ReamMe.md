@@ -98,31 +98,80 @@ Docker services:
 docker engine:
 	the process running inside the container is nothing but the process running on docker host. only the process id will be different.
 
+what is distroless images ?
+
+	A distroless Docker image is a minimalistic container image that includes only the necessary runtime dependencies required to run an application, without OS package manager.Distroless images are designed to be small, secure, and focused on a specific application.
+	1. No Package Manager or Shell
+	2. Smaller Image Size
+	3. Improved Security
+	4. Focused Runtime Environment
+	5. Read-Only File System
+	When security & lightweight image matters use distroless, when you need to debug frequently and application relies on dynamic installations don't use it.
+
 Basic commands: 
+
  	docker build -t image_name .
  	docker run -itd --name container_name image_nme
 	docker exec -itd container_name bash
 	docker cp source_folder container_name:destination_folder
 
-docker ps
-	to see all the  containers running
+	docker ps
+		to see all the  containers running
+	
+	docker ps -a
+		to see all the  containers including stoped containers
+	
+	docker stop cname
+		To stop a container
+	
+	docker rm cname
+		To remove the container
+	
+	docker run container 
+		if not present in local repo then it will search in docker hub and it will download it.
+		if you again run same command it won't download anything.
+	
+	docker run -it node 
+		i -> ( for taking inputs )
+		t -> ( for printing the prompt )
 
-docker ps -a
-	to see all the  containers including stoped containers
+	Attached mode :
+		docker run -p 8000:30 id 
+		docker start -a name
+		docker attach name 	
 
-docker stop cname
-	To stop a container
-
-docker rm cname
- 	To remove the container
-
-docker run container 
-	if not present in local repo then it will search in docker hub and it will download it.
-	if you again run same command it won't download anything.
-
-docker run -it node 
-	i -> ( for taking inputs )
-	t -> ( for printing the prompt )
+	Detached mode :
+		docker start name	 
+		docker run -p 3000:80 -d id
+	
+	Interactive mode  : for taking input
+		docker run -it name
+		docker start -a -i name
+	
+	Logs :
+		docker logs cname         =>  prints all
+		docker logs -f cname     =>  print and keep on listening
+	
+	Remove :
+		docker rm Con_name1 Con_name2 Con_name3
+		docker rmi imagename1 imagename2
+		docker image prune  => delete unused images
+	
+	Automatically Remove Container : After execution
+		docker run -p 8000:80 -d —rm id
+	
+	Details of Image :
+		docker image inspect image
+	
+	Copy :
+		docker cp local_source cname:path_in_container
+		docker cp cname:file_in_container local_destination
+	
+	Tags & Names :
+		docker build -t tag : name .
+		docker tag old_name:tag  new_name:tag
+		Container  :
+		docker run -—name containerName
 
 Diff between run and cmd
 	cmd won't be executed when the image was created , it will execute only when the container is started based on image.
@@ -143,44 +192,7 @@ Docker Layers :
 
 Docker start cname	=> will restart the already stoped container  without blocking the terminal.
 
-Attached mode :
-	docker run -p 8000:30 id 
-	docker start -a name
-	docker attach name 	
 
-Detached mode :
-	docker start name	 
-	docker run -p 3000:80 -d id
-
-Interactive mode  : for taking input
-	docker run -it name
-	docker start -a -i name
-
-Logs :
-	docker logs cname         =>  prints all
-	docker logs -f cname     =>  print and keep on listening
-
-Remove :
-	docker rm Con_name1 Con_name2 Con_name3
-	docker rmi imagename1 imagename2
-	docker image prune  => delete unused images 
-
-Automatically Remove Container : After execution
-	docker run -p 8000:80 -d —rm id
-
-Details of Image :
-	docker image inspect image
-
-Copy :
-	docker cp local_source cname:path_in_container
-	docker cp cname:file_in_container local_destination
-
-Tags & Names :
-	Image :
-		docker build -t tag : name .
-		docker tag old_name:tag  new_name:tag 
-	Container  :
-		docker run -—name containerName
 
 Sharing Images and Containers
 	Don’t share containers , share only Image.
