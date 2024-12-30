@@ -18,7 +18,7 @@ A profile is a snapshot of your application's resource usage.
 
 > **Note:** Ensure your services are tagged properly with `service` and `env`.
 
-<br><br>
+<br>
 
 # Access
 
@@ -31,6 +31,14 @@ A profile is a snapshot of your application's resource usage.
   - Read Only Role
   - Standard Role
   - Admin Role
+
+<br>
+
+# How we connected AWS with Datadog ?
+
+## How Datadog authenticates with AWS ?
+
+## How Aws services integrated with Datadog ?
 
 <br><br>
 
@@ -119,19 +127,73 @@ Run the following command to install both Datadog Node Agents (Daemonsets) and t
 
 <br><br>
 
-# How we configured
+# How we configured in cluster ?
 
 ## Logs
 
-The datadog-agent can be configured to collect container logs directly. The agent will collect logs from `/var/logs`. We can't replicate same with fargate. Because,
-  - we can't install datadog-agent as daemonset since fargate won't support it. So you should install the agent as a sidecar container
-  - agent can't read the logs from `/var/logs` since In fargate nodes we can't create container with previlege access. So we should have a different approach to read logs. ( fluentbit -> cloudwatch -> lambda_forwarder -> datadog ).
+After we enable the logs flag (`datadog.logs.enabled=true`), the datadog-agent can be configured to collect container logs directly. The agent will collect logs from `/var/logs`. We can't replicate same with fargate. Because,
+
+- we can't install datadog-agent as daemonset since fargate won't support it. So you should install the agent as a sidecar container
+- agent can't read the logs from `/var/logs` since In fargate nodes we can't create container with privileged access. So we should have a different approach to read logs. `( fluentbit -> cloudwatch -> lambda_forwarder -> datadog )`
+
+#### Filter logs:
+- Based on log type - by adding annotation `log.level=error` ( it might be different from container to container ) to have only required logs and to decrease the cost.
+- Based on patterns - by using regex pattern in `log_processing_rules`
 
 ## Traces
 
 ## Metrics
 
-<br><br>
+## APM
+
+#### Dashboards
+
+The Datadog Dashboard is a powerful, user-friendly interface that allows users to visualize real-time data from their infrastructure, applications, and services.
+Go and create Dashboard based on your use-case by adding widges in UI then export the Json file then create dashbaord using terraform resource.
+
+```hcl
+resource "datadog_dashboard_json" "dashboard_json" {
+  dashboard = file("file.json")
+}
+```
+
+#### Monitors
+
+Datadog Monitors are an essential component of the Datadog observability platform, which provide real-time alerting and notifications based on metrics, events, or other conditions in your environment.
+Go and create moniters based on your use-case in dashboard through UI then export the Json file then create moniters using terraform resource.
+
+```hcl
+resource "datadog_monitor_json" "monitor_json" {
+  monitor = file("file.json")
+}
+```
+
+#### RDS Monitors
+
+Apart from the normal moniters we can also create query monitors to track RDS cluster query performance.
+
+- avg ulitilization
+- cpu utilization
+- memory utilization.
+
+Implementation steps: [Additional Reference](https://docs.datadoghq.com/database_monitoring/setup_postgres/aurora/?tab=postgres10)
+  1. Update the Parameter Group
+     To enable query performance metrics in Datadog, specific parameters need to be added to the DB parameter group.
+  2. DB access to Agent
+     The Datadog Agent requires read-only access to the database server in order to collect statistics and queries. user, schema, and function needs to be created to gather data from the database.
+  3. Agent connection to DB
+     I mean how agent knows to which DB it should connect ? The Agent does not need to run on the database, it only needs to connect to it. Edit the `postgres.d/conf.yaml` file to point to your host / port and set the masters to monitor
+
+#### Webhooks
+
+A Datadog webhook is a way to send alerts and notifications from Datadog to other systems or services. When a specific event or condition is met in Datadog, a webhook sends an HTTP POST request to a configured URL with details about the event.
+Fields:
+  - name: The name of the webhook.
+  - custom_headers: A map of custom headers to include in the webhook request.
+  - payload: The payload to send with the webhook request.
+  - url: The URL to which the webhook will send requests.
+
+<br>
 
 # RUM
 
@@ -147,11 +209,10 @@ The datadog-agent can be configured to collect container logs directly. The agen
 
 ---
 
-## Doubts
+# Doubts
 
 1. Haven't we enabled tracing for AppMesh?
-2. Where are we creating alerts and dashboards?  
-   _Got the answer!_
+2. Where are we creating alerts and dashboards? _Got the answer!_
 3. What are all RUM tools we installed? And how?
 4. How is Datadog getting AWS data? How is it authenticated and authorized?
-5. What is a webhook exactly?
+5. What is a webhook exactly ? How we got the webhook url ?
