@@ -1,0 +1,8 @@
+Re-entrancy attack
+type casting
+denial-of-service => for-loops for failures
+direct money transfer to contract might effect the functionality
+missing events on core events
+
+Cost optimizations:
+    Events, Errors instead of raw string
