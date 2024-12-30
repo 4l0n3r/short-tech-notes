@@ -1,0 +1,44 @@
+how autoscale works behind the scenes ?
+what is readiness / liveliness Probes ?
+how do you ensure that your deployment process won't be having any downtime ?
+do you know about services in k8s ?
+what's the difference between replicaset and deployment ?
+what is Ingress ?
+what is distroless images ?
+what is multi-stage docker deployments ?
+what is CRD ?
+what is Admission controller in k8s ?
+What is CI/CD and how you maintain them in your project ?
+What type of runners you use ?
+How did you configured your eks cluster ?
+What is release based pipelines ?
+what are affinity rules in k8s ?
+what are taints & tollerations in k8s ?
+What is cronJobs ?
+heap dump and thread issues with Java application
+About RDS & sizes ?
+How many nodes and their sizes
+terraform basics ? versions
+can I change terraform state manually and do apply ?
+aws services scan
+Difference between nginx & aws load balancer controller ?
+
+why are you exposing backend ? ✅
+why separate cluster for each RDS ✅
+why cloudFront for backend services ✅
+
+What is ArgoCD ?
+cloud migration steps
+monolith to microservices
+terragrunt
+why appmesh ?
+how we filter the traces and metrics ?
+apiGateway
+what are all security practices you follow
+
+Branching Strategy
+Hotfix
+stateful-set
+deploy highly-available db on eks
+command to get memory & cpu utilization
+networking commands
