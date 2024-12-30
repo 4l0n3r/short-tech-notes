@@ -75,7 +75,18 @@ Service:
 		will create lb on cloud
 		used to route traffic to multiple services based on path & hostname
 
+Volumes:
 
+    Pod is ephemeral, so whatever you store inside the pod will be lost once the pod got restarted. This is where we use Volumes for some extent.
+
+    emptyDir:
+        this is just to have common storage between two containers inside the pod itself. will lost with pod restart
+    hostPath:
+        the storage will be created at node level. lost data with node distruption and pod schedules on different node.
+    awsElasticBlockStore:
+        need to add volumeId to the manifest file. who creates and adds id to the manifest file.
+    
+    
 without control manager -> deployment wont create replicaset.
 without scheduler -> resplicaset wont create pods since it doesnt know where to schedule.
 
