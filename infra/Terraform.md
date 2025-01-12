@@ -1,268 +1,325 @@
-																							TERRAFORM
-provider block:
-	to declare cloud provider information
-	we can create many provider blocks with alias concept -> for deploying in different regions
-	can use input values but can't reference resources
-	
-terraform block:
-	block type is used to configure some behaviors of Terraform itself
-	can't use input values & can't reference resources
+# TERRAFORM
 
-Provision infrastructure :
-	using aws console
-	coding in python, bash
-	terraform
-		multi providers
-	ansible using yaml 
+## Provider Block
 
-terraform state : current state , code : desired state
-resource
+- Declares cloud provider information.
+- Multiple provider blocks can be created using the alias concept for deploying in different regions.
+- Can use input values but cannot reference resources.
 
-<block>  <resource_type> <resource_name>
-		 <provider = local>
-		 <resource = file>
+## Terraform Block
 
+- Configures some behaviors of Terraform itself.
+- Cannot use input values and cannot reference resources.
+
+## Provision Infrastructure
+
+- Using AWS Console.
+- Coding in Python, Bash.
+- Terraform:
+  - Multi providers.
+- Ansible using YAML.
+
+## Terraform State
+
+- **Current state**: Represents the actual infrastructure.
+- **Code**: Represents the desired state.
+
+### Resource Example
+
+```hcl
 resource "local_file" "pet" {
-	filename = "path"
-	content = "I love pets"
+  filename = "path"
+  content  = "I love pets"
 }
+```
 
-Terraform follows an immutable infrastructure approach
--/+ destroying and creating new one
+- Terraform follows an immutable infrastructure approach (`-/+` destroying and creating new resources).
 
+## Terraform Commands
 
-terraform init
-	download plugins for provider
-	.terraform/plugins
-	registry.terraform.io / hashicorp / local
-	hostname			 / namespaece / provider
+- `terraform init`: Downloads plugins for the provider.
+- `terraform validate`: Validates configuration files.
+- `terraform fmt`: Formats configuration files.
+- `terraform plan -out file`: Creates an execution plan.
+- `terraform apply file`: Applies the execution plan.
+- `terraform show`: Displays the current state.
+- `terraform show -json`: Displays the state in JSON format.
+- `terraform output`: Displays output values.
+- `terraform refresh`: Updates the state file without changing resources.
+- `terraform state list`: Lists all resources.
+- `terraform state show resource_address`: Shows resource details.
+- `terraform state mv old_address new_address`: Moves resources.
+- `terraform state pull`: Pulls the state file.
+- `terraform state rm resource_address`: Removes a resource.
 
-terraform validate
-terraform fmt
-terraform plan -out file
-terraform apply file
-terraform show
-terraform show -json
-terraform output
-terraform output var_name
-terraform refresh
-	won't change any resource, just updates the state file.
+## Variables
 
+### Types
 
-local_sensitive_file
+- **Primitive Types**:
+  - `string`
+  - `integer`
+  - `bool`
+- **Complex Types**:
+  - `list`
+  - `tuple` (different types)
+  - `set`
+  - `map`
+  - `object` (different types)
 
-variable.tf
-	
-	variable types :
-		string 
-		integer
-		bool 
-		
-		list
-		tuple -> diff types
-		set
-		
-		map
-		object -> diff types
-	
-	type constraints to check the type on plan command
+### Usage
 
-command line arguments
-environment
-terraform.tfvars
-*auto.tfvars
--var or -var-file
+- Type constraints can be used to check the type during the `plan` command.
 
-resource attributes
-	having one resource attribute value in another resource -> implicit dependency
-depends_on -> explicit dependency
+### Input Methods
 
-terraform state:
-	metadata : to get the details of dependencies while deleting the dependent resources
-	performance : no need to fetch the state of every resource from every provider, it can refer to the state file ( truth )
-	collaboration : 
+- Command-line arguments.
+- Environment variables.
+- `terraform.tfvars` or `*.auto.tfvars`.
+- `-var` or `-var-file` options.
 
-	Note:
-		it will store every bit of info about resource, even initial password for database. So store it securely.
-		don't give permissions to edit this state file. If you wanna update it use terraform commands to achieve it.
+## Resource Attributes
 
-lifecycle :
-	how can we prevent the resource to create first then destroy next.
+- Implicit dependency: One resource's attribute depends on another.
+- Explicit dependency: Use `depends_on`.
 
-	create_before_destroy
-	prevent_destroy
-	ignore_changes
+## Terraform State
 
-data_source
-	<block> : data
-	only to read
+- **Metadata**: Tracks dependencies while deleting dependent resources.
+- **Performance**: Avoids fetching the state of every resource from providers.
+- **Collaboration**: Stores all resource information securely.
+- **Notes**:
+  - Includes sensitive information like initial database passwords.
+  - Should not be edited manually; use Terraform commands.
 
-count
-	filename=var.filename[count.index]
-	count=length(var.filenames)
+## Lifecycle
 
-	store elememts in a list
-for_each
-	only applicable for set, map
-	filename=each.value
-	for_each=toset(var.filenames)
+- `create_before_destroy`: Ensures new resource creation before destroying the old one.
+- `prevent_destroy`: Prevents resource destruction.
+- `ignore_changes`: Ignores specific attribute changes.
 
-	store elements as map
+## Data Sources
 
-lookup
-	lookup(map , key)
+- Used to read existing information.
 
-provider.tf
-	region
-	access_key
-	secret_key
+### Example
 
-	or add this directly to .aws/credential file
-	or use EXPORT
+```hcl
+data "aws_ami" "example" {
+  most_recent = true
+  owners      = ["self"]
+}
+```
 
-policy :
-	<<EOF
-		data ...!
-	EOF
+## Count and For-Each
 
-	file(json_filename)
+### Count
 
+- Used for creating multiple resources.
 
-remote state :
-	terraform {
-		backend "s3" {
-			bucket
-			key
-			region
-			dynamodb
-		}
-	}
+```hcl
+filename = var.filename[count.index]
+count    = length(var.filenames)
+```
 
-terraform state list
-terraform state show resource_address
-terraform state mv old_address new_address  -> will update the resource config
-terraform state pull
-terraform state rm resource_address
+### For-Each
 
-local-exec :
-	on_failure : fail / continue
-	when : destroy
+- Used for `set` and `map` types.
 
-debugging :
-	export TF_LOG = TRACE
-	export TF_LOG_PATH = PATH
+```hcl
+for_each = toset(var.filenames)
+filename = each.value
+```
 
-impprt :
-	terraform import resource_type.resource_name id
-	you should add the config for this resource to configuration file otherwise it will fail.
+## Lookup
 
+- Retrieves a value from a map.
 
+```hcl
+lookup(map, key)
+```
 
+## Provider Configuration
 
+- Specify `region`, `access_key`, and `secret_key`.
+- Can use `.aws/credentials` file or environment variables.
 
+## Policies
 
+- Use `<<EOF` to define inline policies.
 
+```hcl
+policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": []
+}
+EOF
+```
 
+## Remote State
 
+### Configuration
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+```hcl
+terraform {
+  backend "s3" {
+    bucket = "example-bucket"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+    dynamodb_table = "terraform-lock"
+  }
+}
+```
 
-Check Time  & Update It
+## Provisioners
 
-Software Provisioning 
+### File Uploads
 
-	- creating own AMI and bundle software with it 
-	   by using Packer
-	-  use standard AMI and install software on it
-	    by using Ansible
+```hcl
+provisioner "file" {
+  source      = "local_path"
+  destination = "remote_path"
+}
+```
 
-	File uploads :
-		provisioner “file” {
-			source 		
-			destination 
-		}
+### SSH Connection
 
-	SSH values :
-		connection {
-        			user = "${var.INSTANCE_USERNAME}"
-        			private_key = "${var.INSTANCE_PASSWORD}”
-   		 }
+```hcl
+connection {
+  user        = var.INSTANCE_USERNAME
+  private_key = file(var.PATH_TO_PRIVATE_KEY)
+}
+```
 
-	SSH Values using key_pairs :
-		resource "aws_key_pair" "my_aws_key" {
-   			key_name = "mykey"
-   	 		public_key = "${file("${var.PATH_TO_PUBLIC_KEY}")}"
-		}
+### Remote Execution
 
-		connection {
-        			user = "${var.INSTANCE_USERNAME}"
-        			private_key = "${file("${var.PATH_TO_PRIVATE_KEY}")}"
-   		 }
+```hcl
+provisioner "remote-exec" {
+  inline = ["command-1", "command-2"]
+}
+```
 
-	Remote Execution :
-		resource “aws_instance” “example” {
-			ami
-			instance_type
-			key_name
-			provisioner “file” {
-				source
-				destination
-			}
-			provisioner “exec” {
-				inline = [“command-1” , “command-2”]
-			}
-			provisioner “local-exec” {
-				command = “command1” 			}
-		}
+## Outputs
 
-	Output :
-		output “outputName” {
-			value = “${aws_instance.example.public_ip}”
-		}
+```hcl
+output "instance_ip" {
+  value = aws_instance.example.public_ip
+}
+```
 
-	Remote State:
-		current state to desired state
-		Backup :
-			
-			terraform {
-				backend “s3” {
-					bucket 
-					key
-					region
-				}
-			}
-			
-			data "terraform_remote_state" "aws-state" {
-    				backend = "s3"
-    				config = {
-     					bucket = "terraform-state"
-      					key = "terraform.tfstate"
-      					access_key = "value"
-    					secret_key = "value"
-      					region = "${var.AWS_REGION}"
-     				}
-			}
+## Modules
 
-		Restore:
-			
+- Reusable configurations.
+- Sources can be local or remote (e.g., Git).
 
-Data Sources :
-	restrict ip addresses
+```hcl
+module "example" {
+  source = "path/to/module"
+}
+```
 
-Template File 
+## Debugging
 
-Modules :
-	module from git  ->  terraform get command will load the git module to local repo 
-	module from local
-	
-	module “module_name” {
-		source = “path, either git or local”
-	}
+- Set log levels:
 
-Commands :
-	terraform show
-	terraform graph
-	terraform refresh
+```bash
+export TF_LOG=TRACE
+export TF_LOG_PATH=/path/to/logfile
+```
 
+## Import
 
-aws_lambda_event_source_mapping
+- Import existing resources:
+
+```bash
+terraform import resource_type.resource_name resource_id
+```
+
+---
+
+# Terragrunt
+
+## Overview
+
+- A wrapper around Terraform to make code DRY.
+
+## Use Cases
+
+- Sharing `provider.tf` and `backend.tf` across environments.
+- Managing common variables.
+- Handling dependencies effectively.
+
+## Setup
+
+- Root folder contains a `terragrunt.hcl` file.
+- Subfolders include configuration:
+
+```hcl
+include "root" {
+  path   = find_in_parent_folders()
+  expose = true
+}
+```
+
+---
+
+# Software Provisioning
+
+## Methods
+
+1. **Creating AMI with Packer**.
+2. **Using standard AMI and installing software with Ansible**.
+
+## File Uploads
+
+```hcl
+provisioner "file" {
+  source      = "local_path"
+  destination = "remote_path"
+}
+```
+
+## SSH Key Pairs
+
+```hcl
+resource "aws_key_pair" "example" {
+  key_name   = "mykey"
+  public_key = file(var.PATH_TO_PUBLIC_KEY)
+}
+```
+
+## Remote State Management
+
+- **Backup**:
+
+```hcl
+terraform {
+  backend "s3" {
+    bucket = "example-bucket"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+```
+
+- **Restore**:
+
+```hcl
+data "terraform_remote_state" "example" {
+  backend = "s3"
+  config = {
+    bucket     = "example-bucket"
+    key        = "terraform.tfstate"
+    region     = var.AWS_REGION
+    access_key = "value"
+    secret_key = "value"
+  }
+}
+```
+
+## Commands
+
+- `terraform show`
+- `terraform graph`
+- `terraform refresh`
