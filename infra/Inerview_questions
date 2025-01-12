@@ -6,39 +6,57 @@ what's the difference between replicaset and deployment ?
 what is Ingress ?
 what is distroless images ?
 what is multi-stage docker deployments ?
-what is CRD ?
+    A multi-stage build is a feature in Docker that allows you to create smaller, optimized container images by breaking the build process into multiple stages. 
+    It: helps reduce the final image size by only including the necessary files and dependencies required to run the application, leaving out the build tools or intermediate artifacts.
+what is CRD ? 
+    How Does a CRD Work? 
+        Define the CRD: You create a YAML file that describes the schema and behavior of your custom resource.
+        Deploy the CRD: Apply the YAML file to the cluster using kubectl.
+        Use the CRD: Once the CRD is registered, you can create custom resources (instances of the CRD) and manage them like any other Kubernetes resource.
+        Controller (Optional): Write a controller to automate the management of these custom resources.
 what is Admission controller in k8s ?
+    An Admission Controller in Kubernetes is a piece of code that intercepts incoming API requests to the Kubernetes API server before the request is persisted to the cluster. 
+    It allows you to validate, mutate, or reject requests based on certain conditions or policies.
+    Types of Admission Controllers
+        Mutating Admission Controllers: These controllers can modify the resource being created or updated. For example, adding default labels or annotations to Pods. Example: MutatingAdmissionWebhook
+        Validating Admission Controllers: These controllers validate the resource but do not modify it. They can reject a request if it violates certain policies. Example: ValidatingAdmissionWebhook
+
 What is CI/CD and how you maintain them in your project ?
 What type of runners you use ?
 How did you configured your eks cluster ?
 What is release based pipelines ?
 what are affinity rules in k8s ?
 what are taints & tollerations in k8s ?
+what is pod distruption budget ?
 What is cronJobs ?
 heap dump and thread issues with Java application
-About RDS & sizes ?
-How many nodes and their sizes
+About Aurora & sizes ?
+How many nodes and their sizes ?
 terraform basics ? versions
 can I change terraform state manually and do apply ?
 aws services scan
 Difference between nginx & aws load balancer controller ?
-
-why are you exposing backend ? ✅
-why separate cluster for each RDS ✅
-why cloudFront for backend services ✅
-
-What is ArgoCD ?
-cloud migration steps
-monolith to microservices
-terragrunt
-why appmesh ?
-how we filter the traces and metrics ?
-apiGateway
-what are all security practices you follow
-
-Branching Strategy
-Hotfix
 stateful-set
-deploy highly-available db on eks
 command to get memory & cpu utilization
+Promotheus
+terragrunt
 networking commands
+
+project related stuff:
+
+    why are you exposing backend ?
+    why separate cluster for each RDS
+    why cloudFront for backend services
+    how we filter the traces and metrics ?
+    why Appmesh ?
+        Encryption adds an additional layer of security beyond the private network.
+        end-to-end encryption as Compliance rule
+        Zero trust architecture
+    what are all security practices you follow ?
+        WAF
+        Security group
+        Only https using certificates
+        pod-to-pod encryption
+        Enable encryption on aws services ( kms keys )
+        Sensitive data
+        mostly PR review
