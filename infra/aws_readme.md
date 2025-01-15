@@ -142,7 +142,7 @@ EC2:
             90 %
             interrupted
         Dedicated Host:
-            A physical server 
+            A physical server
             BYOL
         Dedicated instance:
             Instnaces on hardware
@@ -152,6 +152,7 @@ EC2:
             reserve On-Demand instance capacity in a az
             no time commitment, no discounts
             will be charged regardless of using it or not
+
 Placement Groups:
 
     Group of instances
@@ -593,7 +594,6 @@ Integration & Messaging:
         message filtering ( while sending to many queues )
     SNS + SQS Fan Out
 
-
 Database:
 
     Security:
@@ -657,7 +657,7 @@ Database:
     									client
     			writer end point                        reader end point
     			master                                  read_replicas
-    				shared storage volume (10Gb, upto 64TB)
+    				shared storage volume (Increment 10Gb, upto 64TB)
 
     			Custom endpoints:
     				you can create couple of endpoints for different size of replicas for different use cases ( data analytics queries )
@@ -787,7 +787,7 @@ Serverless:
             on-demand ( infinite )
         can't connect lambda directly from dynamoDb, you need dynamoDb Stream to do that.
         import & export to s3 ( RCU & WCU won't be used ) -> ETL to transform data inbetween
-    
+
     API gateway:
         integrations:
             lambda
@@ -801,9 +801,9 @@ Serverless:
             iam roles
             congnito
             certificates
-    
+
     Step function -> to orchastrate lambda functions in a workflow
-    
+
     Congnito:
         User Pool
             Sign in functionality for app users
@@ -815,8 +815,8 @@ Data & Analysis
     Athena:
     	serverless query executor for s3 access logs.
     	better for adhoc request ( quick to load )
-        using data source connector in lambda it will execute federated queries on DynamoDb, Redshift, RDS, Aurora, Elasticache, etc 
-		columnar data > 128MB file
+        using data source connector in lambda it will execute federated queries on DynamoDb, Redshift, RDS, Aurora, Elasticache, etc
+    	columnar data > 128MB file
 
     Redshift:
     	online analytical processing
@@ -830,18 +830,18 @@ Data & Analysis
 
     OpenSearch :
     	search by any filed
-		security:
-			congnito
-			iam
-			kms
-			tls
+    	security:
+    		congnito
+    		iam
+    		kms
+    		tls
     	storage classes:
     		hot : ebs + query + visualization
     		warm : s3 + query degradattion + visualization
     		cold : s3
 
     EMR : elastic map reduce
-		data processing, machine learning, web indexing, big data
+    	data processing, machine learning, web indexing, big data
         on-demand, reserved, spot
     	hadoop cluster
     		master node
@@ -852,7 +852,7 @@ Data & Analysis
     	serverless interactive dashboards
     	in-memory computation
         column level security
-		user , groups, dashboards
+    	user , groups, dashboards
 
     Glue:
     	serverless
@@ -958,8 +958,8 @@ Machine Learning:
     SageMaker: machine learning for every developer and data scientist • Forecast: build highly accurate forecasts
     Forecast
     Kendra: ML-powered search engine
-    Personalize: real-time personalized recommendations 
-    Textract: detect text and data in documents 
+    Personalize: real-time personalized recommendations
+    Textract: detect text and data in documents
 
 Security:
 
@@ -1101,14 +1101,14 @@ AWS Networking:
 
     VPC - Traffic Mirroring:
         send traffic to security appliances
-    
+
     Egress Only Internet Gateway -> Same as NAT for IPV6
-    
+
     Networking Cost Savings:
         Use private Ip so that traffic won't go via public internet
         Query the db first then send the tiny result over the internet
         Use gateway endpoint for s3 & dynamodb
-    
+
     Aws Network Firewall:
         Protect your entire Amazon VPC
 
@@ -1148,7 +1148,7 @@ Boring to Remember:
             3K,125MB
             16K,1000MB
         gp2: 1Gb - 16Tb
-            3K - 16K 
+            3K - 16K
             3:1 (IOPS:Gb)
         io1: 4Gb - 16Tb
             32K, 64K
@@ -1169,7 +1169,7 @@ Boring to Remember:
             Elastic
 
     Instance types:
-        On-Demand : 60 Sec 
+        On-Demand : 60 Sec
         Reserved : 75%
         Spot Instance: 90%
         Savings:
@@ -1183,13 +1183,13 @@ Mock Test Reviews:
     lowest latency and provide fast regional failover -> Global Accelerator
 
     AWS Compute Optimizer to look at instance type recommendations
-    
+
     You cannot use Transfer Acceleration to copy objects across Amazon S3 buckets in different Regions using Amazon S3 console.
     S3 replication: S3 batch & S3 sync
 
     Can't modify Stadanrd queue to FIFO.Should create new FIFO / delete the stadard and convert it to FIFO.FIFO should have suffex as .fifo
     FIFO will have 3000 thoughput with batching, 300 without batching
-    
+
     Use lambda layer for re-usable code. upto 5 layers in a function.
 
     With launch template you can provision capacity across multiple instance types, but not with launch configuration.
@@ -1197,40 +1197,40 @@ Mock Test Reviews:
     Nat instance supports port forwarding & bastion server
 
     Use VPC sharing to share one or more subnets with other AWS accounts belonging to the same parent organization from AWS Organizations
-    
+
     DMS to migrate from s3 to KDS & databases to Redshift
 
     high volume of read traffic, reduce latency, and also downsize the instance size to cut costs => ElasticCache ( not read replicas, cost matters )
 
-    Fsx luster -> 
+    Fsx luster ->
         worlds most high performance file system. designed for applications that require fast storage
         can integrate with s3 and FSx for Lustre file system transparently presents S3 objects as files and allows you to write changed data back to S3.
 
     user data -> first time at launch, root user.
-    
+
     Redshift spectrum -> s3 data
-    
+
     Aws config -> imported certificate expiry notification
 
     Direct Connect:
         DTI - free
         DTO - going to outside aws will be changed but transfer to inside aws won't be charged
-    
+
     Throttling is the process of limiting the number of requests an authorized program can submit to a given operation in a given amount of time. API Gateway will provide this
-    
+
     If you specify targets using an instance ID, traffic is routed to instances using the primary private IP address specified in the primary network interface for the instance
     If you specify targets using IP addresses, you can route traffic to an instance using any private IP address from one or more network interfaces
-    
-    Compute Optimizer -> EC2,ASG,EBS,Lambda 
+
+    Compute Optimizer -> EC2,ASG,EBS,Lambda
 
     dead-letter queue to collect failed messages
     AWS recommend using separate queues when you need to provide prioritization of work
-    
+
     Amazon RDS creates an SSL certificate and installs the certificate on the DB instance when Amazon RDS provisions the instance.
 
     OriginGroup -> An origin group includes two origins (a primary origin and a second origin to failover to) and a failover criteria that you specify.
-    
-    tightly-coupled High Performance Computing -> Elastic Fabric Adapter 
+
+    tightly-coupled High Performance Computing -> Elastic Fabric Adapter
 
     two regions lo low latency queries annadante inka global db eh ( dynamodb, aurora )
 
@@ -1239,11 +1239,11 @@ Mock Test Reviews:
 
     migrating to s3 / efs / fsx then first think about DataSync then only DMS
     AWS Database Migration Service (DMS) is used for migrating databases, not data on file shares.
-    
+
     Lambda@Edge is not used to direct traffic to on-premises origins.
 
-    Availability for on-premise database -> migrate to RDS multi-az 
-    
+    Availability for on-premise database -> migrate to RDS multi-az
+
     task_role -> s3 , dynamodb access
     task_execution_role -> access to pull image, send logs
     container_instance_role -> to the entire ec2 instance ( means all tasks under instance )
@@ -1273,7 +1273,7 @@ Mock Test Reviews:
         mistake - maximum performance while connecting on-premise to vpc -> Direct connect over site-to-site
         don't know - AWS recommend using separate queues when you need to provide prioritization of work
         mistake - didn't understood it properly at that time. encrypt of read-replica only possible with new encrypted snapshot and new db creation.
-    
+
     Mock Test - 2:
         private connection -> damn sure not SiteToSite connection. either snow family / direct connect ( if time permits )
         millisecond responsiveness  -> DynamoDb over Redshift
@@ -1292,9 +1292,9 @@ Mock Test Reviews:
     Mock Test - 3:
         DNS failover configurations:
             active-passive -> failover
-            active-active -> return many 
+            active-active -> return many
             combination -> use more policies
-        Encryption to Direct connect connection -> VPG 
+        Encryption to Direct connect connection -> VPG
             A VPG is used to setup an AWS VPN which you can use in combination with Direct Connect to encrypt all data that traverses the Direct Connect link.
             This combination provides an IPsec-encrypted private connection that also reduces network costs, increases bandwidth throughput
         RDS -> KMS uses a customer master key (CMK) to encrypt the DB instance, all logs, backups, and snapshots.
@@ -1313,7 +1313,7 @@ Mock Test Reviews:
         cloudwatch event rule -> sns
         install Linux-based software application -> ec2, not lambda
         aws:Secure Transport header  -> SSL/TLS
-        x-amz-server-side-encryption -> encrypt an object at the time of upload 
+        x-amz-server-side-encryption -> encrypt an object at the time of upload
         RAID-0 : I/O matters then fault tolerance
         RAID-1: fault tolerance matter then I/O
         Ec2 monitoring:
@@ -1340,7 +1340,7 @@ Mock Test Reviews:
         EBS fast snapshot restore: fully initialized at creation & high I/O performance
         You cannot restore EBS snapshots as instance store volumes
         The Redis engine does not support multiple CPU cores or threads.
-        secure and unique URLs for each customer = Registering a wildcard custom domain name in Route 53 + creating a record pointing to API Gateway + Requesting a wildcard certificate in the same AWS region 
+        secure and unique URLs for each customer = Registering a wildcard custom domain name in Route 53 + creating a record pointing to API Gateway + Requesting a wildcard certificate in the same AWS region
         CloudWatch Logs subscription: cloudwatch log group stream data to open search.
         S3 pre-signed URLs : for individual file access
         CloudFront signed cookies : access to multiple files in one or multiple directories
@@ -1356,6 +1356,7 @@ Mock Test Reviews:
         Data Lifecycle Manager to automate snapshots
 
         3[A/D],1[B/C],4[A/C],26[A/C],35[a/d]
+
 DK
 M
 DU
@@ -1378,7 +1379,7 @@ Doubts:
     Is simple and step policies are different ? Yes
     can NLB attached to instances from different regions ? No, it's region specific.
     SwapUtilization metric -> Aws managed
-    Differences between aurora & aurora serverless 
+    Differences between aurora & aurora serverless
     Difference between NAT gateway & virtual private gateway ? NAT will go through public internet, VPG is purely private connection
     what is reduced redundency in s3 life cycle policiies
 
@@ -1388,7 +1389,7 @@ WhitePapers:
     Higher-level managed services
     Built-in Security
     Archiving for cost
-    
+
     Design Principles:
         scalability
         stateless application
@@ -1453,14 +1454,14 @@ WhitePapers:
             Automated Multi-Data Center Resilience
                 failover ( RDS autofailover )
                 Shuffle Sharding
-    
+
     Optimize for Cost:
         Right Sizing
         Elasticity
         Take Advantage of the Variety of Purchasing Options
             Reserved Instances  ->  AWS Trusted Advisor or Amazon EC2 usage report
             Spot Instances
-    
+
     Cache:
         Application Data Caching -> Elasticache
         Edge Caching
@@ -1478,7 +1479,6 @@ WhitePapers:
         Aws config
         Aws cloudtrail
 
-
 aws.amazon.com/architecture
 aws.amazon.com/solutions
 https://digitalcloud.training/aws-application-integration-services/
@@ -1487,4 +1487,3 @@ white papers:
 
     https://d1.awsstatic.com/whitepapers/AWS_Cloud_Best_Practices.pdf
     https://d0.awsstatic.com/whitepapers/AWS_Serverless_Multi-Tier_Architectures.pdf
-
