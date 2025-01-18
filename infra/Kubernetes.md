@@ -54,26 +54,26 @@ Service:
     	expose the application to outside world.
     	even if you create more than one pod with same labels ( even on different nodes ) service lables it will take care of selecting those pods and split the network based on load.
 
-	to access your application which deployed as a pod and exposed using a service, you just need to specify the service name. It is resolved to the service's IP address by CoreDNS, which is deployed with an Amazon EKS cluster, by default. For that you should be inside the cluster first ( maybe inside any pod )
+    to access your application which deployed as a pod and exposed using a service, you just need to specify the service name. It is resolved to the service's IP address by CoreDNS, which is deployed with an Amazon EKS cluster, by default. For that you should be inside the cluster first ( maybe inside any pod )
 
-	clusterIp:
-		default
-		only for internal communication
-	
-	NodePort:
-		exposes a service on a static port on each node
-		not providing same level of load balancing and service discovery and network security as a LoadBalancer service
-		service will expose an IP that will again forward the traffic to each node_ip:static_port
-	
-	LoadBalancer:
-		provision alb on cloud
-		load balancer + service discovery + service security
-		user -> alb -> service -> deployment
+    clusterIp:
+    	default
+    	only for internal communication
 
-	Ingress ( Out of topic )
-		needs ingress controller to set it up
-		will create lb on cloud
-		used to route traffic to multiple services based on path & hostname
+    NodePort:
+    	exposes a service on a static port on each node
+    	not providing same level of load balancing and service discovery and network security as a LoadBalancer service
+    	service will expose an IP that will again forward the traffic to each node_ip:static_port
+
+    LoadBalancer:
+    	provision alb on cloud
+    	load balancer + service discovery + service security
+    	user -> alb -> service -> deployment
+
+    Ingress ( Out of topic )
+    	needs ingress controller to set it up
+    	will create lb on cloud
+    	used to route traffic to multiple services based on path & hostname
 
 Volumes:
 
@@ -85,8 +85,7 @@ Volumes:
         the storage will be created at node level. lost data with node distruption and pod schedules on different node.
     awsElasticBlockStore:
         need to add volumeId to the manifest file. who creates and adds id to the manifest file.
-    
-    
+
 without control manager -> deployment wont create replicaset.
 without scheduler -> resplicaset wont create pods since it doesnt know where to schedule.
 
@@ -106,9 +105,9 @@ Services to be installed inside the eks cluster :
     		CoreDNS supports caching of DNS records to improve performance and reduce the load on upstream DNS servers. It can also forward DNS queries to external DNS servers for resolution of external domains.
     	Load Balancing:
     		CoreDNS supports load balancing of DNS queries among multiple backend servers, helping distribute the load and provide high availability.
-		
-		nameserver 10.100.0.10 default namesercer assigned to all pods
-		
+
+    	nameserver 10.100.0.10 default namesercer assigned to all pods
+
     Reloader:
     	Reloader is an open-source tool designed to enhance the automation of Kubernetes application updates by triggering the rolling restart of Pods when ConfigMap or Secret resources are updated. It aims to simplify the process of propagating configuration changes to running applications without manual intervention.
 
@@ -135,10 +134,11 @@ scheduling constraints:
 
     	nodes will have taints to allow only few pods to be schedueled
     	pods will tolerations to have permissions to deploy on tainted nodes
-	
-	pod distruction budget:
-		Pods will never be forcibly deleted, so pods that fail to shut down will prevent a node from deprovisioning.
-		will block node termination if evicting the pod would cross the pdb.
+
+    pod distruction budget:
+    	A Pod Disruption Budget (PDB) in Kubernetes is a policy that defines the minimum number or percentage of Pods in a deployment that must remain available during voluntary disruptions.
+    	Pods will never be forcibly deleted, so pods that fail to shut down will prevent a node from deprovisioning.
+    	will block node termination if evicting the pod would cross the pdb.
 
 service account:
 
@@ -146,6 +146,15 @@ service account:
     restricted to namespace
     It works via IAM OpenID Connect Provider (OIDC) that EKS exposes, and IAM Roles must be constructed with reference to the IAM OIDC Provider
     Inside EKS, there is an admission controller that injects AWS session credentials into pods respectively of the roles based on the annotation on the Service Account used by the pod
+
+Statefulsets:
+
+    A StatefulSet is a Kubernetes resource used to manage stateful applications. Unlike Deployments, which are used for stateless applications, StatefulSets are designed for applications that require persistent storage, stable network identities, and ordered, predictable deployment and scaling.
+    Key Features of StatefulSets:
+    	1. Stable Network Identity: Each Pod in a StatefulSet gets a stable, unique hostname. For example, if you have 3 Pods in the StatefulSet, they will have names like: (my-app-0,my-app-1,my-app-2)
+    	2. Stable Storage: StatefulSets use PersistentVolumeClaims (PVCs) to ensure that each Pod gets its own persistent storage. When a Pod is rescheduled, it gets the same volume it had before.
+    	3. Ordered Deployment and Scaling: Pods in a StatefulSet are created and terminated in a specific order (e.g., my-app-0 is created first, then my-app-1, and so on). This is important for applications like databases, where one instance must be started before another.
+    	4. Graceful Termination: When scaling down or deleting Pods, StatefulSets ensure that Pods are terminated in reverse order (e.g., my-app-2 is terminated first, then my-app-1).
 
 eks:
 
@@ -203,7 +212,7 @@ Webhooks:
     MutatingAdmissionWebhook:
         Used to modify or mutate a resource before it is persisted in etcd. Example: Adding a default sidecar container to pods when deployed (like App Mesh injectors).
     ValidatingAdmissionWebhook:
-        Used to validate the resource's configuration. Example: Ensuring that all resources conform to specific naming conventions or mandatory fields.
+        Used to validate the resource's configuration. Example: Ensuring that all resources confirm to specific naming conventions or mandatory fields.
 
 Commands:
 
