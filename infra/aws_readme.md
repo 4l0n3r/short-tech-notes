@@ -392,7 +392,7 @@ Route53:
     	Ip Based: based on client Ip ( CIDR block )
     	Multi Value: Simple Routing + Health checks for each record. Only returns the healthy records from the list.
 
-    	You can create domain on 3rd party and use our route 53 as a DNS service. Just update the ns records in 3rd party with the records mentioned in our aws host zone.
+    	You can create domain on 3rd party and use our route 53 as a DNS service. Just update the ns records in 3rd party with the records mentioned in our aws host zone. you need to configure Route 53 as the authoritative DNS provider for your domain by updating the name servers in your GoDaddy account. These authoritative name servers are specified in the domain's DNS records and managed by the domain's DNS provider
 
     Health Checks:
     	to prevent the traffic to go through the failed instances.
