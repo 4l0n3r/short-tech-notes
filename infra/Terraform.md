@@ -323,3 +323,12 @@ data "terraform_remote_state" "example" {
 - `terraform show`
 - `terraform graph`
 - `terraform refresh`
+
+---
+
+# Questions
+
+### the difference between provider and required_provider
+
+- The required_providers block describes **Provider Requirements**, which is to say it tells Terraform which providers each individual module depends on
+- The provider "aws" block describes a **Provider Configuration**, which is essentially an instance of the provider with particular configuration settings such as region and credentials.
