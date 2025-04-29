@@ -267,3 +267,5 @@ Commands:
     	Kubectl delete replicaset deployment_name
 
     	Kubectl get all  => return pods , services , replicas , deployments
+        
+        kubectl get events -n "$TARGET_NAMESPACE" --sort-by='.metadata.creationTimestamp' --field-selector type=Warning > events.log
