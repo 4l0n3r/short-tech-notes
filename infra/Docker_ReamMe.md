@@ -99,7 +99,7 @@ docker engine:
 	the process running inside the container is nothing but the process running on docker host. only the process id will be different.
 
 what is distroless images ?
-
+	Os base image - package manager
 	A distroless Docker image is a minimalistic container image that includes only the necessary runtime dependencies required to run an application, without OS package manager.Distroless images are designed to be small, secure, and focused on a specific application.
 	1. No Package Manager or Shell
 	2. Smaller Image Size
