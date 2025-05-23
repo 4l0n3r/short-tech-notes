@@ -1,4 +1,5 @@
 Intro:
+
     supports floating point numbers
     follows Interface Definition Language - ABI in solidity
     attributes ->
@@ -17,6 +18,7 @@ Intro:
     we can run tests without re-deploying the program -> program id + json file + provider
 
 Basic Rust
+
     supports only fixed array, for dynamic we have vectors
     length -> usize
     Rust does not have try catch.
@@ -44,3 +46,23 @@ Basic Rust
     you can create a function without pub which is under #[program]
 
     no direcit inheritence -> indirect way is import the module
+
+Concepts:
+    
+    block.timestamp = unix_timestamp    
+    block number = slot number
+    block.difficulty ❌
+    block.chainId 
+    Each transaction is by default limited to 200,000 compute units
+    sysvars -> global values -> can access using get method / address
+    slot ki oka leader, aadu block(list of transactions) ni produce chestadu ( might not produce ).
+    slot and block hashes are different
+
+    
+    Events as structs with arguments as fields. part of IDL. no index field.
+    can't directly access past events, can only listen as they go
+    logs -> sol_log_data(bytes). Like events, they can only lister as they go
+    Unlike Ethereum, Solana transactions can be queried by address
+
+    
+    
