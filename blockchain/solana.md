@@ -64,5 +64,9 @@ Concepts:
     logs -> sol_log_data(bytes). Like events, they can only lister as they go
     Unlike Ethereum, Solana transactions can be queried by address
 
+    there is no equivalent to msg.sender.
+    msg.tx -> Solana transactions can have multiple signers
+    Anchor automatically passes the wallet account in the provider as a signer
+    onlyOwner -> #[access_control(check(&ctx))]
     
     
