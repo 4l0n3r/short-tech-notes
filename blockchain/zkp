@@ -1,0 +1,13 @@
+claim / statement
+constraints
+circuit
+public and private inputs
+prover
+verifier
+
+
+trusted setup:
+    1. creation of secret
+    2. create proof using the secret
+    3. destroy the secret
+    4. give the proof to verifier
