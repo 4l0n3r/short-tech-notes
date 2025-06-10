@@ -11,3 +11,16 @@ trusted setup:
     2. create proof using the secret
     3. destroy the secret
     4. give the proof to verifier
+
+Core Pillars
+    1. Completeness - Ensuring Honest Provers Succeed
+    2. Soundness - Preventing Dishonest Provers from Cheating
+    3. Zero-Knowledge - nothing to be leaked to prover
+
+Process
+    Step 1 (Front-End): Arithmetization
+    Step 2 (Front-End): Writing the Circuit
+    Step 3 (Front-End): Compiling the Circuit
+    Step 4 (Front-End): Generating the Witness
+    Step 5 (Back-End): Proof Generation – Creating Cryptographic Evidence
+    Step 6 (Back-End): Verification
