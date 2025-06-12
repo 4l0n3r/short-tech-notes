@@ -24,3 +24,8 @@ Process
     Step 4 (Front-End): Generating the Witness
     Step 5 (Back-End): Proof Generation – Creating Cryptographic Evidence
     Step 6 (Back-End): Verification
+
+ZKP Use Cases
+    Privacy-Preserving Authentication
+    Confidential Transactions
+    Scalable Blockchain Solutions (Rollups)
