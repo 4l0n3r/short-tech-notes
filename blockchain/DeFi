@@ -1,0 +1,7 @@
+Funding Rate Mechanism :
+    periodic payment exchanged between long and short traders.
+    funding rate is positive = long positions ekkuvaithe  -> contract prize > spot prize kanna ekkuva avthadhi    -> but aadu outside prize ekkuvavthadhi ani invest chesadu kaabatti aadu short vaalaki money ivvali
+    funding rate is negative = short positions ekkuvaithe -> contract prize < spot prize kanna thakkuva avthadhi  -> but aadu outside prize thakkuvavthadhi ani invest chesadu kabatti aadu long vaalaki money ivvali
+
+    contract price -> The price of the perpetual contract in the exchange.
+    spot price -> USDT prize outside
