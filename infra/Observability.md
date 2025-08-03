@@ -32,6 +32,7 @@ Why:
 
 target: what does it monitor ?
     Nginx Server / Python Server / Database
+
 metrics: which units are monitered ?
     CPU status / Memory Usage / requests count
 
@@ -59,8 +60,8 @@ How it pulls the data:
     try to retrieve the data from /metrics endpoint
     it will accept only the above 3 formats.
 
-There is a component to satisfy the above 2 conditions.
-Exporter tasks: ( mediator btw target and prometheus )
+Some services will directly expose the /metrics endpoint so prometheus can directly get the data from there. But all services won't expose the /metrics endpoint. There is a component to satisfy the above 2 conditions.
+Exporter tasks: ( mediator btw target and prometheus ) It will get installed as a sidecar container for the services.
     1. will fetch the metrics from target
     2. update the format
     3. expose at /metrics
