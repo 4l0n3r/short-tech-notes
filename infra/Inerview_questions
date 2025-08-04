@@ -1,26 +1,9 @@
 how autoscale works behind the scenes ?
 what is readiness / liveliness Probes ?
-how do you ensure that your deployment process won't be having any downtime ?
 do you know about services in k8s ?
 what's the difference between replicaset and deployment ?
 what is Ingress ?
 what is distroless images ?
-what is multi-stage docker deployments ?
-    A multi-stage build is a feature in Docker that allows you to create smaller, optimized container images by breaking the build process into multiple stages. 
-    It: helps reduce the final image size by only including the necessary files and dependencies required to run the application, leaving out the build tools or intermediate artifacts.
-what is CRD ? 
-    How Does a CRD Work? 
-        Define the CRD: You create a YAML file that describes the schema and behavior of your custom resource.
-        Deploy the CRD: Apply the YAML file to the cluster using kubectl.
-        Use the CRD: Once the CRD is registered, you can create custom resources (instances of the CRD) and manage them like any other Kubernetes resource.
-        Controller (Optional): Write a controller to automate the management of these custom resources.
-what is Admission controller in k8s ?
-    An Admission Controller in Kubernetes is a piece of code that intercepts incoming API requests to the Kubernetes API server before the request is persisted to the cluster. 
-    It allows you to validate, mutate, or reject requests based on certain conditions or policies.
-    Types of Admission Controllers
-        Mutating Admission Controllers: These controllers can modify the resource being created or updated. For example, adding default labels or annotations to Pods. Example: MutatingAdmissionWebhook
-        Validating Admission Controllers: These controllers validate the resource but do not modify it. They can reject a request if it violates certain policies. Example: ValidatingAdmissionWebhook
-
 What is CI/CD and how you maintain them in your project ?
 What type of runners you use ?
 How did you configured your eks cluster ?
@@ -42,21 +25,169 @@ Promotheus
 terragrunt
 networking commands
 
-project related stuff:
+what is multi-stage docker deployments ?
+    A multi-stage build is a feature in Docker that allows you to create smaller, optimized container images by breaking the build process into multiple stages.
+    It: helps reduce the final image size by only including the necessary files and dependencies required to run the application, leaving out the build tools or intermediate artifacts.
 
+what is CRD ?
+    How Does a CRD Work?
+        Define the CRD: You create a YAML file that describes the schema and behavior of your custom resource.
+        Deploy the CRD: Apply the YAML file to the cluster using kubectl.
+        Use the CRD: Once the CRD is registered, you can create custom resources (instances of the CRD) and manage them like any other Kubernetes resource.
+        Controller (Optional): Write a controller to automate the management of these custom resources.
+
+what is Admission controller in k8s ?
+    An Admission Controller in Kubernetes is a piece of code that intercepts incoming API requests to the Kubernetes API server before the request is persisted to the cluster.
+    It allows you to validate, mutate, or reject requests based on certain conditions or policies.
+    Types of Admission Controllers
+        Mutating Admission Controllers: These controllers can modify the resource being created or updated. For example, adding default labels or annotations to Pods. Example: MutatingAdmissionWebhook
+        Validating Admission Controllers: These controllers validate the resource but do not modify it. They can reject a request if it violates certain policies. Example: ValidatingAdmissionWebhook
+
+Network flow diagram from client to pod:
+    Client → ALB (via DNS resolution and listener rules).
+    ALB → Worker Node (via target group).
+    Worker Node → kube-proxy (via Service and Endpoint).
+    kube-proxy → Pod (via CNI and pod IP).
+    Pod → Application (process request and send response).
+
+Pod DNS Resolution:
+    Pod's DNS Configuration ( etc/resolv.conf )
+    CoreDns ( coredns service ip ) If not resolved locally
+    Upstream DNS : VPC DNS Resolver : AmazonProvidedDNS at 169.254.169.253 in AWS -> If it's in cache it will return the IP directly
+    Public DNS resolver
+
+    If you're using Route 53 Private Hosted Zones, the VPC DNS Resolver can resolve queries for domains in the private hosted zone without forwarding
+    them to public resolvers. Route 53 do not inherently know the IP of google.com but it follows Recursive DNS resolution process.
+
+    Recursive DNS Resolution Process
+        Root DNS Servers:
+            Route 53 Public Resolvers query the root DNS servers to find the name servers responsible for the .com top-level domain (TLD).
+        TLD Name Servers:
+            The .com name servers respond with the name servers responsible for google.com.
+        Authoritative Name Servers:
+            Route 53 Public Resolvers query Google's authoritative name servers to get the IP address for google.com. These authoritative name servers are specified in the domain's DNS records and managed by the domain's DNS provider.
+
+how do you ensure that your deployment process won't be having any downtime ?
+    1. Use Rolling Updates
+    2. Use Readiness Probes
+    3. Implement Liveliness Probes ( restarts pods when they become unresponsive )
+    4. Load Balancer Health Checks
+    5. Through test before move to production
+    6. Pod Distruption Budgets
+
+Eks cluster upgrade:
+    Backup cluster resources
+    API supported versions
+    Networking components ( kube-proxy, cni, coreDnS )
+    Controller versions ( alb controller, appmesh version )
+    Tools ( kubectl, helm )
+    PDB for critical workloads
+    new node group with update AMI
+    cordon & drain
+    Rollback plan
+
+ways to connect to EC2 instance:
+    using ssh with key.pem
+    ec2 connect ( web-browser based ssh connection )
+    SSM - using ssm agent installed on ec2 ( IAM role with the AmazonSSMManagedInstanceCore policy, have internet access )
+    RDP on windows ( file downloaded, use any RDP client )
+    CloudShell
+
+SSH connection flow:
+    You execute ssh -i /path/to/your-key.pem ec2-user@<instance-ip>.
+    The SSH client on your machine sends a connection request.
+    The SSH server on the EC2 instance checks its authorized_keys file for the corresponding public key.
+    The server sends a challenge encrypted with the public key.
+    The SSH client decrypts the challenge using the private key and sends a response.
+    The server verifies the response.
+    If the response is correct, a secure session is established, and you can interact with the EC2 instance.
+
+static & dynamic parameter groups:
+    Static parameters are those that require a database instance restart for the changes to take effect. will get a bit downtime ( database's memory, buffer sizes, or other system-level configurations )
+    Dynamic parameters are those that can be changed without requiring a restart of the database instance. The changes are applied immediately. ( runtime behaviors, such as query execution or connection handling )
+
+commands:
+    Memory:
+        total_mem=$(free | grep Mem | awk '{print $2}')
+        used_mem=$(free | grep Mem | awk '{print $3}')
+        mem_usage=$((100 * used_mem / total_mem))
+        echo "Memory usage: $mem_usage%"
+        available_mem=$(free | grep Mem | awk '{print $7}')
+        if [ "$available_mem" -lt 500000 ]; then
+            echo "Warning: Low memory!"
+        fi
+
+        ps aux --sort=-%mem | head -n 10
+
+    CPU:
+        top -bn1 | grep "Cpu(s)"
+        ps -eo pid,%cpu,comm | grep <process_name>
+        uptime
+
+    Network Usage:
+        netstat -i
+        netstat -anp | grep $pid
+
+
+what are all security practices you follow ?
+    WAF
+    Security group
+    Only https using certificates
+    pod-to-pod encryption
+    rotate secrets
+    Enable encryption on aws services ( kms keys )
+    Sensitive data
+    mostly PR review
+
+why Appmesh ?
+    Encryption adds an additional layer of security beyond the private network.
+    end-to-end encryption as Compliance rule
+    Zero trust architecture
+
+project related stuff:
     why are you exposing backend ?
     why separate cluster for each RDS
     why cloudFront for backend services
     how we filter the traces and metrics ?
-    why Appmesh ?
-        Encryption adds an additional layer of security beyond the private network.
-        end-to-end encryption as Compliance rule
-        Zero trust architecture
-    what are all security practices you follow ?
-        WAF
-        Security group
-        Only https using certificates
-        pod-to-pod encryption
-        Enable encryption on aws services ( kms keys )
-        Sensitive data
-        mostly PR review
+    explain your ci/cd setup
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sigterm & Sigkill
+restrict resources in linux for a perticular process
+GP2 & GP3
+different dns values in public and private subnets
+helm parent child
+Linux
+Json file read + working with dictionary
+
