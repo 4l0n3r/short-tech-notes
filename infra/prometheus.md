@@ -87,8 +87,8 @@ Exporters are service-specific and often run as sidecar containers. For example:
 ### Configuration File
 
 - **How often**: Frequency of Prometheus scraping data.
-- **Rules**: For raising alerts and aggregating metrics.
-- **What**: Specifies resources to monitor.
+- **Rules**: For raising alerts and aggregating metrics. We should also mention things related to where(alertmanager) we are pushing the alerts.
+- **What**: Specifies resources to monitor, means which services.
 
 ---
 
