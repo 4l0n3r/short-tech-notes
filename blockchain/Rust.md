@@ -24,16 +24,19 @@ match
     }
 
 loops
-    let mut count = 0;
+    // Infinite loop
     loop {
-        count += 1;
-        if count == 3 {
-        break;
-        }
+    break;
     }
-
-    for i in 1..4 {    // 1 to 3
-        println!("{i}");
+    
+    // While loop
+    while x < 5 {
+    x += 1;
+    }
+    
+    // For loop
+    for i in 1..5 {
+    println!("{}", i);
     }
 
 Arrays
@@ -72,6 +75,17 @@ struct
     tuple structs ( Color, Point )
     Unit like structs
     {rect1:?} , {rect1:#?}
+
+traits
+    #[derive(Debug, Clone, Copy)]
+    struct Point {
+    x: i32,
+    y: i32,
+    }
+    
+    let p1 = Point { x: 0, y: 0 };
+    let p2 = p1;  // OK because of Copy trait
+    println!("{:?}", p1);  // Debug print    
 
 :: -> associated function is a function that’s implemented on a type
 
