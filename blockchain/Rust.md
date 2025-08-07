@@ -87,6 +87,18 @@ traits
     let p2 = p1;  // OK because of Copy trait
     println!("{:?}", p1);  // Debug print    
 
+Ownership basics
+    let s1 = String::from("hello");
+    let s2 = s1;                  // s1 is moved (invalidated)
+    // println!("{}", s1);        // Error!
+    
+    let s3 = s2.clone();          // Deep copy
+    let len = calculate_len(&s3); // Borrowing
+    
+    fn calculate_len(s: &String) -> usize {
+        s.len()
+    }
+
 :: -> associated function is a function that’s implemented on a type
 
 crate is a collection of Rust source code files
