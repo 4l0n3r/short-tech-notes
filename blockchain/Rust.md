@@ -59,6 +59,12 @@ vectors
         println!("{i}");
     }
 
+strings
+    let s1 = "Hello";             // String slice (&str)
+    let s2 = String::from("Hello"); // Growable String
+    let s3 = s2 + " World!";      // Concatenation
+    let sub = &s1[0..2];          // Slicing ("He")
+
 struct
     Note that the entire instance must be mutable.Rust doesn’t allow us to mark only certain fields as mutable
     Field Init Shorthand
@@ -88,10 +94,9 @@ reference scope dhani last usage varakuu matrame untadhi
 
 string literals are string slices
 
-
-
 for (index,value) in nums.iter().enumerate()
     *value
+
 
 
 
