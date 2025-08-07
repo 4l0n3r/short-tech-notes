@@ -22,7 +22,7 @@ Rust will not automatically try to convert non-Boolean types to a Boolean
 
 shallow copy -> reference
 hard copy -> data copy
-move -> reference + delete only one
+move -> reference + delete the old one
 
 Copy trait that we can place on types that are stored on the stack
 Rust won’t let us annotate a type with Copy if the type, or any of its parts, has implemented the Drop trait
@@ -30,7 +30,7 @@ Rust won’t let us annotate a type with Copy if the type, or any of its parts, 
 At any given time, you can have either one mutable reference or any number of immutable references.
 reference scope dhani last usage varakuu matrame untadhi
 
-tring literals are string slices
+string literals are string slices
 
 struct
     Note that the entire instance must be mutable.Rust doesn’t allow us to mark only certain fields as mutable
