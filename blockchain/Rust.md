@@ -155,6 +155,64 @@ fn calculate_len(s: &String) -> usize {
 
 ## Crate
 A crate is a collection of Rust source code files.
+- **Binary crate**: Can be many inside the `bin` folder.
+- **Library crate**: Single
+
+---
+
+## Package
+A package is one or more crates.
+
+---
+
+## Modules
+### Basic
+```rust
+// In src/lib.rs or any module file
+mod network {
+    fn connect() {
+        // function implementation
+    }
+}
+```
+
+### File-based
+```rust
+// src/network.rs
+pub fn connect() {
+    // public function
+}
+
+// src/lib.rs
+mod network; // Load contents from network.rs
+```
+
+### Re-exporting
+```rust
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+pub use front_of_house::hosting; // Re-export
+```
+
+### Visibility
+```rust
+mod outer {
+    pub mod inner {
+        pub(self) fn private_fn() {} // Only in inner
+        pub(super) fn parent_fn() {} // Available to outer
+        pub(crate) fn crate_fn() {} // Available in crate
+    }
+
+    pub fn example() {
+        inner::parent_fn(); // Allowed
+        // inner::private_fn(); // Error!
+    }
+}
+```
 
 ---
 
@@ -182,3 +240,4 @@ Rust will not automatically try to convert non-Boolean types to a Boolean.
 - Reference scope lasts until the last usage.
 
 ---
+
