@@ -1,0 +1,18 @@
+installation
+backend connection
+    api-key is needed as a kubernetes secret
+analyse
+explain
+filter
+integration
+    other tools
+        trivy
+        aws
+        prometheus
+        keda
+        keverno
+    communication
+        slack
+
+Through k8sgpt-cli
+In-cluster operator
